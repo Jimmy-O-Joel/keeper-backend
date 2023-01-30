@@ -1,14 +1,21 @@
-const express = require('express')
+import express from 'express'
+import { getNotes, deleteNote, addNote, likeNote} from '../controllers/notes.js'
+import { verifyToken } from '../middleware/auth.js'
+
 const router = express.Router()
 
+/* CREATE */
+router.post("/", verifyToken, addNote)
 
-const {
-    getNotes,
-    deleteNote,
-    addNote
-} = require('../controllers/notes')
+/* READ */
+router.get("/", verifyToken, getNotes)
 
-router.route("/").get(getNotes).post(addNote)
-router.route("/:id").delete(deleteNote)
 
-module.exports = router
+//UPDATE LIKES
+router.patch("/:id/like", verifyToken, likeNote)
+
+/* DELETE */
+router.delete("/:id/:userId", verifyToken, deleteNote)
+
+
+export default router

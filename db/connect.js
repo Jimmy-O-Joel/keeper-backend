@@ -1,12 +1,10 @@
-const mongoose = require("mongoose")
+import mongoose from "mongoose";
 
 mongoose.set("strictQuery", false);
 
-const connectDB = (url) =>{
+export default  (url) =>{
     return mongoose.connect(url,{ 
         useNewUrlParser: true, 
         useUnifiedTopology: true, 
     })
 }
-
-module.exports = connectDB

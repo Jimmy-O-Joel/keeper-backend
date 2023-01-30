@@ -1,33 +1,31 @@
 
-require("dotenv").config()
-const notes = require('./routes/notes')
-const connectDB = require('./db/connect')
-const express = require("express")
-const cors = require('cors')
+import notes from './routes/notes.js'
+import auth from "./routes/auth.js"
+import connectDB from './db/connect.js'
+import express, { urlencoded, json } from "express"
+import cors from 'cors'
+import dotenv from "dotenv"
 
 
 const app = express()
 
 //middleware
 
-app.use(express.urlencoded({extended: true}))
-app.use(express.json())
+app.use(urlencoded({extended: true}))
+app.use(json())
 app.use(cors())
+
+//configurations
+dotenv.config()
 
 
 // routes
 
 app.use("/api/notes", notes)
+app.use("/api/auth", auth)
 
 const port =  process.env.PORT || 5000
 
-
-app.post("/post_note",(req, res)=>{
-
-    const {title, content} = req.body
-    console.log(title, content)
-    
-})
 
 const start = async ()=>{
     try {
